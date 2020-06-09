@@ -1,0 +1,1 @@
+gst-launch-1.0 -v videotestsrc ! "video/x-raw, format=(string)I420, width=(int)640, height=(int)480" ! x264enc ! h264parse ! avdec_h264 ! autovideosink

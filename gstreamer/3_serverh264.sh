@@ -1,0 +1,1 @@
+gst-launch-1.0 -v videotestsrc ! "video/x-raw, width=1280, height=480, format=(string)I420" ! x264enc ! h264parse ! rtph264pay pt=96 config-interval=5 ! udpsink host=127.0.0.1 port=7700
