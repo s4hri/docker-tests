@@ -25,7 +25,20 @@ alsa_beep_ok=false
 _try_speaker_test() {
   local dev="$1"
   [[ "$HAVE_SPEAKER_TEST" -eq 1 ]] || return 1
-  timeout 3s speaker-test -c 2 -t sine -l 1 -D "$dev" >/dev/null 2>&1
+
+  local rc
+
+  echo "Left Channel"
+  timeout 1s speaker-test -c 2 -t sine -s 1 -l 1 -D "$dev" >/dev/null 2>&1
+  rc=$?
+  [[ $rc -eq 0 || $rc -eq 124 ]] || return 1
+
+  echo "Right Channel"
+  timeout 1s speaker-test -c 2 -t sine -s 2 -l 1 -D "$dev" >/dev/null 2>&1
+  rc=$?
+  [[ $rc -eq 0 || $rc -eq 124 ]] || return 1
+
+  return 0
 }
 
 # 3) Helper: try beep/test with aplay on a sample wav
